@@ -19,6 +19,10 @@ public:
 	ASCharacter();
 
 protected:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> ProjectileClass;
+
+protected:
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -28,7 +32,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Movement 
 	void MoveForward(float Value);
+	void MoveRight(float Value);
+
+	// Action
+	void PrimaryAttack();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

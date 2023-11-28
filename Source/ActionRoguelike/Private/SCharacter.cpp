@@ -3,6 +3,7 @@
 
 #include "SCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 
 //#include "EnhancedInputComponent.h"
@@ -17,9 +18,14 @@ ASCharacter::ASCharacter()
 	//Create objects for editor to use
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
 	SpringArmComp->SetupAttachment(RootComponent);
+	SpringArmComp->bUsePawnControlRotation = true;
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp); 
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
@@ -39,7 +45,40 @@ void ASCharacter::Tick(float DeltaTime)
 //Move Forward function
 void ASCharacter::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector(), Value);
+	FRotator ControlRot = GetControlRotation();
+
+	ControlRot.Pitch = 0.0f;
+	ControlRot.Roll = 0.0f;
+
+	AddMovementInput(ControlRot.Vector(), Value);
+}
+
+//MoveRight function
+void ASCharacter::MoveRight(float Value)
+{
+	FRotator ControlRot = GetControlRotation();
+
+	ControlRot.Pitch = 0.0f;
+	ControlRot.Roll = 0.0f;
+
+	//X - Forward (Red)
+	//Y - Right (Green)
+	//Z - Up (Blue)
+
+	FVector RightVector = FRotationMatrix(ControlRot).GetScaledAxis(EAxis::Y);
+
+	AddMovementInput(RightVector, Value);
+}
+
+//Primary Attack Function
+void ASCharacter::PrimaryAttack()
+{
+	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01"); //To set a socket from the skeletal mesh
+	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
 }
 
 
@@ -48,16 +87,18 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//Call MoveForward function when getting Player Input
+	//Call MoveForward and MoveRight functions when getting Player Input
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ASCharacter::MoveRight);
 
 	//Call Turn function when getting player input
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
-	/*
-	//Call EnhancedInput System functions
-	UEnhancedInputComponent* InputComp = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	InputComp->BindAction(Input_Move, ETriggerEvent::Triggered, this & ASCharacter::Move);
-	*/
+	//Spawn Projectile Actor with BindAction
+	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
+
+	//Jump (Done on Own)
+	PlayerInputComponent->BindAction("Jump",IE_Pressed, this, &ACharacter::Jump);
 }
 
