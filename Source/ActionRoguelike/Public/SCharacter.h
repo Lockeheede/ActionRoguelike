@@ -4,13 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "SInteractionComponent.h"
+#include "S_AttributeComponent.h"
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
+
 
 class USpringArmComponent;
 class UCameraComponent;
 class USInteractionComponent;
 class UAnimMontage;
+class US_AttributeComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
@@ -27,6 +30,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	USInteractionComponent* InteractionComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	US_AttributeComponent* AttributeComp;
 	
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* AttackAnim;

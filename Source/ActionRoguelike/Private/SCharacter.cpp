@@ -5,6 +5,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
+#include "S_AttributeComponent.h"
+
 
 //#include "EnhancedInputComponent.h"
 // "EnhancedInputSubsystems.h"
@@ -22,6 +24,8 @@ ASCharacter::ASCharacter()
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp); 
+
+	AttributeComp = CreateDefaultSubobject<US_AttributeComponent>("AttributeComp");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
