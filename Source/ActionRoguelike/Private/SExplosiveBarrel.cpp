@@ -21,7 +21,7 @@ ASExplosiveBarrel::ASExplosiveBarrel()
 	ForceComp->SetAutoActivate(false);
 	ForceComp->bImpulseVelChange = true;
 	ForceComp->SetupAttachment(MeshComp);
-	ForceComp->ImpulseStrength = 2'500.0f;
+	ForceComp->ImpulseStrength = 1'000.0f;
 	ForceComp->Radius = 750.0f;
 
 
