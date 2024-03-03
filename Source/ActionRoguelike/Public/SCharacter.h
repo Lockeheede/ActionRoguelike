@@ -28,6 +28,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	TSubclassOf<AActor> ProjectileClass;
 
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> DashProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> BlackHoleProjectileClass;
+
 	UPROPERTY(VisibleAnywhere)
 	USInteractionComponent* InteractionComp;
 
@@ -38,6 +44,14 @@ protected:
 	UAnimMontage* AttackAnim;
 
 	FTimerHandle TimerHandle_PrimaryAttack;
+	FTimerHandle TimerHandle_Dash;
+	FTimerHandle TimerHandle_BlackHole;
+
+	UFUNCTION()
+	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, US_AttributeComponent* OwningComp, float NewHealth, float Delta);
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -57,6 +71,15 @@ protected:
 	void PrimaryAttack();
 	void PrimaryInteract();
 	void PrimaryAttack_TimeElapsed();
+	void Dash();
+	void Dash_TimeElapsed();
+	void BlackHole();
+	void BlackHole_TimeElapsed();
+
+	//Properties
+	float AttackAnimDelay = 0.2f;
+
+	virtual void PostInitializeComponents() override;
 
 public:	
 	// Called every frame

@@ -18,3 +18,5 @@ void ASTargetDummy::OnHealthChanged(AActor* InstigatorActor, US_AttributeCompone
 		MeshComp->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
 	}
 }
+
+
