@@ -14,6 +14,7 @@ class UCameraComponent;
 class USInteractionComponent;
 class UAnimMontage;
 class US_AttributeComponent;
+class UParticleSystemComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
@@ -34,6 +35,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	TSubclassOf<AActor> BlackHoleProjectileClass;
 
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	FName HandSocketName;
+
 	UPROPERTY(VisibleAnywhere)
 	USInteractionComponent* InteractionComp;
 
@@ -42,6 +46,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* AttackAnim;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystem* CastingEffect;
 
 	FTimerHandle TimerHandle_PrimaryAttack;
 	FTimerHandle TimerHandle_Dash;
@@ -52,6 +59,9 @@ protected:
 
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, US_AttributeComponent* OwningComp, float NewHealth, float Delta);
+
+	UFUNCTION()
+	void StartAttackEffects();
 
 protected:
 	UPROPERTY(VisibleAnywhere)

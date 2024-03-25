@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "S_AttributeComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 //#include "EnhancedInputComponent.h"
@@ -32,6 +33,7 @@ ASCharacter::ASCharacter()
 	bUseControllerRotationYaw = false;
 
 	InteractionComp = CreateDefaultSubobject<USInteractionComponent>("InteractionComp");
+	HandSocketName = "Muzzle_01";
 }
 
 void ASCharacter::PostInitializeComponents()
@@ -119,11 +121,18 @@ void ASCharacter::BlackHole_TimeElapsed()
 	SpawnProjectile(BlackHoleProjectileClass);
 }
 
+void ASCharacter::StartAttackEffects()
+{
+	PlayAnimMontage(AttackAnim);
+
+	UGameplayStatics::SpawnEmitterAttached(CastingEffect, GetMesh(), HandSocketName, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget);
+}
+
 void ASCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
 {
 	if (ensureAlways(ClassToSpawn))
 	{
-		FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+		FVector HandLocation = GetMesh()->GetSocketLocation(HandSocketName);
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.Instigator = this;

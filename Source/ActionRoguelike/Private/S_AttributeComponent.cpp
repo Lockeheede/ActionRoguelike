@@ -5,20 +5,35 @@
 
 US_AttributeComponent::US_AttributeComponent()
 {
-	Health = 100;
+	HealthMax = 100;
+	Health = HealthMax;
 }
 
 bool US_AttributeComponent::ApplyHealthChange(float Delta) {
-	Health += Delta;
+	float OldHealth = Health;
 
-	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
+	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 
-	return true;
+	float ActualDelta = Health - OldHealth;
+
+	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
+
+	return ActualDelta != 0;
 }
 
 bool US_AttributeComponent::IsAlive() const
 {
 	return Health > 0.0f;
+}
+
+float US_AttributeComponent::GetHealthMax() const
+{
+	return HealthMax;
+}
+
+bool US_AttributeComponent::IsFullHealth() const
+{
+	return Health == HealthMax;
 }
 
 
