@@ -177,6 +177,12 @@ void ASCharacter::OnHealthChanged(AActor* InstigatorActor, US_AttributeComponent
 		APlayerController* PC = Cast<APlayerController>(GetController());
 		DisableInput(PC);
 	}
+
+	if (Delta < 0.f)
+	{
+		GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+	}
+
 }
 
 //Primary Interact Function
