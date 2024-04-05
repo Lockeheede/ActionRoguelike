@@ -3,6 +3,7 @@
 #include "SGameModeBase.h"
 #include "EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
+#include "EnvironmentQuery/EnvQueryTypes.h"
 #include "AI/SAICharacter.h"
 #include "S_AttributeComponent.h"
 #include "EngineUtils.h"
@@ -44,7 +45,7 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 		ASAICharacter* Bot = *It;
 		US_AttributeComponent* AttributeComp = Cast<US_AttributeComponent>(Bot->GetComponentByClass(US_AttributeComponent::StaticClass()));
 
-		if (AttributeComp && AttributeComp->IsAlive())
+		if (ensure(AttributeComp) && AttributeComp->IsAlive())
 		{
 			NrOfAliveBots++;
 		}

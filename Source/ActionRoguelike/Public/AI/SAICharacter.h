@@ -7,6 +7,7 @@
 #include "SAICharacter.generated.h"
 
 class UPawnSensingComponent;
+class US_AttributeComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASAICharacter : public ACharacter
@@ -21,6 +22,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	UPawnSensingComponent* PawnSensingComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	US_AttributeComponent* AttributeComp;
 
 	UFUNCTION()
 	void OnPawnSeen(APawn* Pawn);

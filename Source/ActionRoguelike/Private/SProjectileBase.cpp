@@ -3,6 +3,7 @@
 
 #include "SProjectileBase.h"
 #include "Components/SphereComponent.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -19,6 +20,9 @@ ASProjectileBase::ASProjectileBase()
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(RootComponent);
+
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("AudioComp");
+	AudioComp->SetupAttachment(RootComponent);
 
 	MoveComp = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMoveComponent");
 	MoveComp->bRotationFollowsVelocity = true;
@@ -44,6 +48,11 @@ void ASProjectileBase::Explode_Implementation()
 	}
 }
 
+void ASProjectileBase::PlayImpactSound()
+{
+
+}
+
 void ASProjectileBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
@@ -60,5 +69,4 @@ void ASProjectileBase::BeginPlay()
 void ASProjectileBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }

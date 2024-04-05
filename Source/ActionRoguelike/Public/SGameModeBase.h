@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -10,6 +8,7 @@
 class UEnvQueryInstanceBlueprintWrapper;
 class UEnvQuery;
 class UCurveFloat;
+class UEnvQueryTypes;
 /**
  * 
  */
@@ -33,7 +32,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	float SpawnTimerInterval;
-
+	
 	UFUNCTION()
 	void SpawnBotTimerElapsed();
 

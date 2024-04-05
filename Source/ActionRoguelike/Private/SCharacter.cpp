@@ -6,6 +6,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "S_AttributeComponent.h"
+#include "SProjectileBase.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -87,7 +88,7 @@ void ASCharacter::MoveRight(float Value)
 //Primary Attack Function
 void ASCharacter::PrimaryAttack()
 {
-	PlayAnimMontage(AttackAnim);
+	StartAttackEffects();
 	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, AttackAnimDelay);
 
 	//For clearing the timer
@@ -101,7 +102,7 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 
 void ASCharacter::Dash()
 {
-	PlayAnimMontage(AttackAnim);
+	StartAttackEffects();
 	GetWorldTimerManager().SetTimer(TimerHandle_Dash, this, &ASCharacter::Dash_TimeElapsed, AttackAnimDelay);
 }
 
@@ -112,7 +113,7 @@ void ASCharacter::Dash_TimeElapsed()
 
 void ASCharacter::BlackHole()
 {
-	PlayAnimMontage(AttackAnim);
+	StartAttackEffects();
 	GetWorldTimerManager().SetTimer(TimerHandle_BlackHole, this, &ASCharacter::BlackHole_TimeElapsed, AttackAnimDelay);
 }
 
