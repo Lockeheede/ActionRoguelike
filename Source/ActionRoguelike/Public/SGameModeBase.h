@@ -26,7 +26,6 @@ protected:
 
 	FTimerHandle TimerHandle_SpawnBots;
 
-
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* DifficultyCurve;
 
