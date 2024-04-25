@@ -8,6 +8,8 @@
 
 class UPawnSensingComponent;
 class US_AttributeComponent;
+class UUserWidget;
+class USWorldUserWidget;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASAICharacter : public ACharacter
@@ -25,6 +27,20 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	US_AttributeComponent* AttributeComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	FName TimeToHitParameter;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUserWidget> HealthBarWidgetClass;
+
+	USWorldUserWidget* ActiveHealthBar;
+
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, US_AttributeComponent* OwningComp, float NewHealth, float Delta);
+
+	UFUNCTION()
+	void SetTargetActor(AActor* NewTarget);
 
 	UFUNCTION()
 	void OnPawnSeen(APawn* Pawn);
