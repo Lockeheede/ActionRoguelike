@@ -51,6 +51,11 @@ float US_AttributeComponent::GetHealthMax() const
 	return HealthMax;
 }
 
+float US_AttributeComponent::GetHealth() const
+{
+	return Health;
+}
+
 bool US_AttributeComponent::IsFullHealth() const
 {
 	return Health == HealthMax;
