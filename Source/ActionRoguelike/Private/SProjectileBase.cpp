@@ -6,6 +6,7 @@
 #include "Components/AudioComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "UObject/UObjectBaseUtility.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -41,7 +42,7 @@ void ASProjectileBase::Explode_Implementation()
 {
 	//Check to make sure we aren't already being 'destroyed'
 	//Adding ensure to see if we encounter this situation at all
-	if (ensure(!IsPendingKill()))
+	if (ensure(!IsValid(this)))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
 		Destroy();
