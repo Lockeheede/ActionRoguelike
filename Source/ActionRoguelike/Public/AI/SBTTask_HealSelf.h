@@ -9,7 +9,8 @@
 /**
  * 
  */
-class SAttributeComponent;
+class S_AttributeComponent;
+class SAICharacter;
 
 UCLASS()
 class ACTIONROGUELIKE_API USBTTask_HealSelf : public UBTTask_BlackboardBase
@@ -18,5 +19,6 @@ class ACTIONROGUELIKE_API USBTTask_HealSelf : public UBTTask_BlackboardBase
 public:
 
 protected:
-	void Healing(UBehaviorTreeComponent& OwnerComp);
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+
 };

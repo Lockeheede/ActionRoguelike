@@ -2,6 +2,7 @@
 
 
 #include "S_AttributeComponent.h"
+#include "SGameModeBase.h"
 
 US_AttributeComponent::US_AttributeComponent()
 {
@@ -17,6 +18,16 @@ bool US_AttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 	float ActualDelta = Health - OldHealth;
 
 	OnHealthChanged.Broadcast(InstigatorActor, this, Health, ActualDelta);
+
+	//Died
+	if (ActualDelta < 0.0f && Health == 0.f)
+	{
+		ASGameModeBase* GM = GetWorld()->GetAuthGameMode<ASGameModeBase>();
+		if (GM)
+		{
+			GM->OnActorKilled(GetOwner(), InstigatorActor);
+		}
+	}
 
 	return ActualDelta != 0;
 }

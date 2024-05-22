@@ -13,6 +13,7 @@ USBTService_CheckHealth::USBTService_CheckHealth() {
 void USBTService_CheckHealth::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
+
 	APawn* AIPawn = OwnerComp.GetAIOwner()->GetPawn();
 	if (ensure(AIPawn))
 	{

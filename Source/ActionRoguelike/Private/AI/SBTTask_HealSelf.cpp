@@ -2,20 +2,22 @@
 
 
 #include "AI/SBTTask_HealSelf.h"
-#include "AIController.h"
 #include "S_AttributeComponent.h"
-#include "GameFramework/Character.h"
-#include "BehaviorTree/BlackboardComponent.h"
+#include "AIController.h"
 
-void Healing(UBehaviorTreeComponent& OwnerComp) 
+EBTNodeResult::Type USBTTask_HealSelf::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	APawn* AIPawn = OwnerComp.GetAIOwner()->GetPawn();
-	if (ensure(AIPawn))
+	APawn* MyPawn = Cast<APawn>(OwnerComp.GetAIOwner()->GetPawn());
+	if (MyPawn == nullptr)
 	{
-		US_AttributeComponent* AttributeComp = US_AttributeComponent::GetAttributes(AIPawn);
-		if (ensure(AttributeComp))
-		{
-			AttributeComp->ApplyHealthChange(AIPawn, AttributeComp->GetHealthMax());
-		}
+		return EBTNodeResult::Failed;
 	}
+
+	US_AttributeComponent* AttributeComp = US_AttributeComponent::GetAttributes(MyPawn);
+	if (ensure(AttributeComp))
+	{
+		AttributeComp->ApplyHealthChange(MyPawn, AttributeComp->GetHealthMax());
+	}
+
+	return EBTNodeResult::Succeeded;
 }
