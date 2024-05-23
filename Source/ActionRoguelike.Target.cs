@@ -11,6 +11,5 @@ public class ActionRoguelikeTarget : TargetRules
 		DefaultBuildSettings = BuildSettingsVersion.Latest;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 		ExtraModuleNames.Add("ActionRoguelike");
-		bOverrideBuildEnvironment = true;
 	}
 }
